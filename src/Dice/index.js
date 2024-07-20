@@ -294,7 +294,8 @@ function DiceGame() {
                   }}
                 >
                   Result: {result}
-                  {result < 4 ? <span> (Xỉu)</span> : <span> (Tài)</span>}
+                  {(result <= 3 && result >= 1) && <span> (Xỉu)</span>}
+                  {(result <= 6 && result >= 4) && <span> (Tài)</span>}
                 </p>
                 <br />
                 {ready ? (
