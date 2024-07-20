@@ -1,0 +1,39 @@
+.card-content{
+    width: 20rem;
+}
+
+.title{
+    color: #3f53d1;
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px
+}
+
+.title i{
+    margin-right: .4em;
+}
+
+.name-wallet{
+    max-width: 100%;
+    width: 95%;
+    height: 45px;
+    outline: none;
+    padding: 0 8px;
+    border-radius: 3px;
+    border: .5px solid #dedede;
+    background-color: #fefefe;
+    color: #666;
+    font-size: 14px;
+}
+
+.btn-submit{
+    height: 45px;
+    margin-top: 20px;
+    width: 100%;
+    border: none;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}

@@ -1,0 +1,59 @@
+.btn-choose{
+  background-color: transparent;
+  padding: 2em 1.4em;
+  margin: 0 1em;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  border: solid .5px #dedede;
+  transition: .5s;
+  margin-bottom: 2em;
+}
+
+.active{
+  background-color: #2d2dae;
+  color: white;
+  transition: .5s;
+}
+
+.txtWallet{
+  font-size: 13px;
+  color: #888;
+  background-color: aliceblue;
+  padding: 4px 8px;
+  border-radius: 3px;
+  border: solid .5px blue;
+  color: blue;
+}
+
+.btnSubmit{
+  padding: 1em 1.5em;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background-color: #2d2dae;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin-top: 2em;
+}
+
+.inp-coin{
+  padding: 8px 6px;
+  font-size: 22px;
+  outline: none;
+  width: 100px;
+}
+
+.cont-coin{
+  margin-top: 2em;
+  height: 200px;
+}
+
+.txtLabel{
+  font-size: 16px;
+  font-weight: 500;
+  margin-right: 1em;
+}

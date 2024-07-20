@@ -1,0 +1,143 @@
+.card-wallet{
+    padding: 10px 1em;
+}
+
+.title-data{
+    border: solid .5px #dedede;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.title-data span{
+    background-color: rgb(30 66 173);
+    border-radius: 3px 0 0 3px;
+    padding: 8px 15px;
+    font-weight: bold;
+    color: white;
+    margin-right: 5px;
+}
+
+.header{
+    height: 10vh;
+    line-height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1em;
+}
+.header a{
+    font-size: 13px;
+    text-decoration: none;
+    padding: 8px 12px;
+    margin-right: 10px;
+    background-color: rgb(30 66 173);
+    color: white;
+    border-radius: 4px;
+}
+.cont{
+    height: 85vh;
+}
+
+.group-button{
+    display: flex;
+    justify-content: space-around;
+}
+.group-button button{
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    color: white;
+    font-weight: 500;
+    background-color: rgb(30 66 173);
+}
+
+.txt-infor-wallet{
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    height: 30px;
+    line-height: 30px;
+}
+
+.txt-infor-wallet-2{
+    font-size: 12px;
+    height: 30px;
+    line-height: 30px;
+}
+
+
+.long-text{
+    width: 100%;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis
+}
+
+.hash-id{
+    padding: 0px 4px;
+    background-color: #f2f2f2;
+    border-radius: 3px;
+    border: solid .5px #999;
+}
+
+.coin-1{
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 2px;
+    color: white;
+    background-color: rgb(3, 3, 142);
+    font-size: 16px;
+}
+
+.coin-2{
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 2px;
+    color: #e23434;
+    font-size: 16px;
+}
+
+.coin-3{
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 2px;
+    color: green;
+    font-size: 16px;
+}
+
+.coin-4{
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 2px;
+    color: blue;
+    font-size: 16px;
+    
+}
+
+.list-blockchain{
+    height: 75vh;
+    overflow: auto;
+}
+
+/* Đặt độ rộng của thanh cuộn */
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  /* Đặt màu nền của thanh cuộn */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Đặt màu cho phần "thumb" của thanh cuộn */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+  }
+  
+  /* Đặt màu cho phần "thumb" khi di chuột qua */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #222;
+  }

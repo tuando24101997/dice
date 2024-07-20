@@ -1,0 +1,115 @@
+.btn-choose{
+    background-color: transparent;
+    padding: 1.5em 1.4em;
+    margin: 0 1em;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: solid 2px #2d2dae;
+    transition: .5s;
+    margin-bottom: 2em;
+    border-radius: 0;
+  }
+  
+  .App{
+    display: flex;
+    justify-content: center;
+  }
+  
+  .active{
+    background-color: #2d2dae;
+    color: white;
+    transition: .5s;
+  }
+  
+  .txtWallet2{
+    font-size: 13px;
+    color: #444;
+    margin-left: 5px;
+  }
+  
+  .btnSubmit{
+    padding: 1em 1.5em;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    border: solid 2px #2d2dae;
+    background-color: transparent;
+    border-radius: 0px;
+    color: #2d2dae;
+    cursor: pointer;
+    margin-top: 2em;
+  }
+  
+  .inp-coin{
+    padding: 3px;
+    text-align: center;
+    font-size: 18px;
+    outline: none;
+    width: 200px;
+  }
+  
+  .cont-coin{
+    margin-top: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+  }
+  
+  .txtLabel{
+    font-size: 16px;
+    font-weight: 500;
+    margin-right: 1em;
+  }
+
+  .header-game{
+    height: 70px;
+    line-height: 70px;
+    padding-left: 2em;
+    border-bottom: solid 1px #000;
+    display: flex;
+    justify-content: space-between;
+  }
+  .btn-game{
+    padding: 4px 12px;
+    margin: 6px;
+    text-decoration: none;
+    border-radius: 4px;
+    border: solid .5px #dedede;
+    font-size: 13px;
+    color: #222;
+  }
+  .btn-game:hover{
+    background-color: #999;
+  }
+  .header-game span{
+    font-size: 30px;
+    font-weight: bold;
+  }
+  .header-game img{
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+  }
+
+  .card-choose{
+    padding-top: 1em;
+    text-align: center;
+  }
+
+  .txtCoin{
+    padding: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: green;
+    padding: 4px 6px;
+    border: solid .5px green;
+    border-radius: 3px;
+    margin-left: 8px;
+  }
+
+  .border-card{
+    border: solid 1px #000;
+  }

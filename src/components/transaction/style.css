@@ -1,0 +1,84 @@
+table {
+    font-size: 13px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    text-align: left;
+    padding: 10px;
+}
+
+
+tr{
+    border-bottom: 1px solid #dedede !important;
+}
+
+.txtBlock{
+    padding: 3px 6px;
+    border-radius: 3px;
+    border: solid .5px #dedede;
+    background-color: #fcfcfc;
+}
+
+.txtHash{
+    width: 200px;
+    max-width: 200px;
+    padding-right: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.txtWalletTransaction{
+    max-width: 350px;
+    width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.txtWalletMiner{
+    max-width: 250px;
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    display: inline-block;
+}
+
+.header-transaction{
+    height: 60px;
+    line-height: 60px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1em;
+}
+
+.header-transaction a span{
+    text-decoration: none;
+    font-size: 13px;
+    padding: 4px 10px;
+    line-height: 0;
+    color: #444;
+    border-radius: 3px;
+    border: solid .5px #dedede;
+    background-color: #fcfcfc;
+}
+
+.header-transaction a{
+    text-decoration: none;
+}
+
+.txtArrow{
+   padding: 5px 6px;
+    border: solid .5px green;
+    background-color: rgb(243, 253, 243);
+    color: green;
+    border-radius: 35px;
+}
+
+.txtCenter{
+    text-align: center;
+}
+
