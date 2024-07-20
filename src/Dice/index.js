@@ -36,6 +36,7 @@ function DiceGame() {
   const [gas, setGas] = useState(0);
   const [idRoll, setIdRoll] = useState(45352);
   const [ready, setReady] = useState(true);
+  const [result, setResult] = useState(0);
 
   // List url
   const diceImages = {
@@ -106,6 +107,7 @@ function DiceGame() {
         if (!ready) {
           setReady(true);
           setChoose(0);
+          setResult(0);
         } else {
           const roll = Math.floor(Math.random() * 6) + 1;
           setRandom(roll);
@@ -117,6 +119,7 @@ function DiceGame() {
             setRandom(roll);
             const newId = idRoll + 1;
             setIdRoll(newId);
+            setResult(roll);
             localStorage.setItem("Id_roll", JSON.stringify(newId));
             // add block in blockchain
             const newBlock = {
@@ -283,6 +286,15 @@ function DiceGame() {
                   }}
                 >
                   Fees Gas: {gas}
+                </p>
+                <p
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: '500'
+                  }}
+                >
+                  Result: {result}
+                  {result < 4 ? <span> (Xỉu)</span> : <span> (Tài)</span>}
                 </p>
                 <br />
                 {ready ? (
