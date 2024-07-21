@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import Swal from "sweetalert2";
@@ -21,6 +21,14 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const walletlc = localStorage.getItem("my-wallet");
+  let wallet = JSON.parse(walletlc);
+  // useEffect(()=>{
+  //   console.log(walletlc)
+  //   if(walletlc === null){
+  //     navigate('/register');
+  //   }
+  // }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,7 +36,6 @@ function Login() {
     const checkPassword = validatePassword(password);
 
     if (check && checkPassword) {
-      let wallet = JSON.parse(localStorage.getItem("my-wallet"));
       const user = wallet.find(
         (wl) => wl.name === email && wl.password === password
       );

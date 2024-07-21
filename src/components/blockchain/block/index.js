@@ -1,12 +1,12 @@
 import React from "react";
 
 function Block(props) {
-  const {data, hash, prevHash, name} = props;
+  const {data, hash, prevHash, name, time} = props;
   return (
     <div className="card card-wallet shadow-sm mb-3">
       <p className="title-data mb-4">
         {" "}
-        <span>Data</span> {data}
+        <span>Data</span> Result Roll {data}
       </p>
       <div style={{ fontSize: "13px", marginTop: "5px" }}>
         <p style={{ fontWeight: "500" }}>
@@ -42,9 +42,10 @@ function Block(props) {
             {hash}
           </span>
         </p>
+        <p style={{ fontWeight: "500" }}>Time: {time}</p>
       </div>
       <p className="mt-2" style={{ marginBottom: "5px" }}>
-        <span style={{ fontWeight: "bold", fontSize: "22px" }}>{name}</span>
+        <span style={{ fontWeight: "bold", fontSize: "17px" }}>#{name}</span>
       </p>
     </div>
   );

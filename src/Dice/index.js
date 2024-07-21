@@ -13,6 +13,8 @@ import icon_roll from "../img/icon-roll.png";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import sha256 from "sha256";
+import IndexAPI from "../api/indexApi";
+import axios from "axios";
 
 function DiceGame() {
   const navigate = useNavigate();
@@ -38,6 +40,10 @@ function DiceGame() {
   const [ready, setReady] = useState(true);
   const [result, setResult] = useState(0);
 
+  // State roll
+  const [id, setId] = useState('');
+  const [resultRoll, setResultRoll] = useState(1);
+
   // List url
   const diceImages = {
     1: DiceRoll_1,
@@ -56,6 +62,7 @@ function DiceGame() {
     }
   };
 
+
   useEffect(() => {
     // console.log(random);
     let isLogin = JSON.parse(localStorage.getItem("isLogin"));
@@ -71,12 +78,15 @@ function DiceGame() {
     }
     
     const list_wallet = JSON.parse(localStorage.getItem("my-wallet"));
-    setListWallet(list_wallet);
-    const user = list_wallet.find(
-      (wallet) =>
-        wallet.name === JSON.parse(localStorage.getItem("email-my-coin"))
-    );
-    setWallet(user);
+    if (list_wallet !== null){
+      setListWallet(list_wallet);
+      const user = list_wallet.find(
+        (wallet) =>
+          wallet.name === JSON.parse(localStorage.getItem("email-my-coin"))
+      );
+      setWallet(user);
+    }
+    
     const lcRoll = localStorage.getItem("Id_roll");
     if (lcRoll !== null) {
       const id_roll = JSON.parse(lcRoll);
@@ -84,7 +94,36 @@ function DiceGame() {
     } else {
       localStorage.setItem("Id_roll", JSON.stringify(idRoll));
     }
-  }, [random]);
+  }, [resultRoll]);
+
+  
+
+  const fetchDataFromFirstAPI = async () => {
+    try {
+      // Thực hiện yêu cầu GET đến API đầu tiên
+      const response1 = await axios.get('http://localhost:4001/roll-dice');
+      setId(response1.data.txId);
+      console.log(response1.data.txId);
+    } catch (err) {
+      throw err ('Failed to fetch data');
+    } 
+  };
+
+  const fetchRoll = async () => {
+    try {
+      // Thực hiện yêu cầu GET đến API đầu tiên
+      const response2 = await axios.get(`http://localhost:4001/roll-dice-result/${id}`);
+      const roll = response2.data.result;
+      if(roll){
+        setResultRoll(response2.data.result);
+      } else {
+        setResultRoll(1);
+      }
+      console.log(response2.data.result);
+    } catch (err) {
+      console.log('Failed to fetch data');
+    } 
+  }
 
   const handlePlayGame = (e) => {
     e.preventDefault();
@@ -109,17 +148,16 @@ function DiceGame() {
           setChoose(0);
           setResult(0);
         } else {
-          const roll = Math.floor(Math.random() * 6) + 1;
-          setRandom(roll);
+          fetchDataFromFirstAPI();
+          // fetchRoll();
           setStart(true);
           setReady(false);
           setTimeout(() => {
             setStart(false);
-            const roll = Math.floor(Math.random() * 6) + 1;
-            setRandom(roll);
+            fetchRoll();
+            const roll = resultRoll;
             const newId = idRoll + 1;
             setIdRoll(newId);
-            setResult(roll);
             localStorage.setItem("Id_roll", JSON.stringify(newId));
             // add block in blockchain
             const newBlock = {
@@ -136,7 +174,7 @@ function DiceGame() {
             localStorage.setItem("block", listBlockJSON);
 
             let check = 2; // Tài
-            if (roll < 4) {
+            if (resultRoll < 4) {
               check = 1; // Xỉu
             }
             if (check === choose) {
@@ -208,7 +246,7 @@ function DiceGame() {
                 );
               }
             }
-          }, 5000);
+          }, 7000);
         }
       }
     }
@@ -293,9 +331,9 @@ function DiceGame() {
                     fontWeight: '500'
                   }}
                 >
-                  Result: {result}
-                  {(result <= 3 && result >= 1) && <span> (Xỉu)</span>}
-                  {(result <= 6 && result >= 4) && <span> (Tài)</span>}
+                  Result: {resultRoll}
+                  {(resultRoll <= 3 && resultRoll >= 1) && <span> (Xỉu)</span>}
+                  {(resultRoll <= 6 && resultRoll >= 4) && <span> (Tài)</span>}
                 </p>
                 <br />
                 {ready ? (
@@ -338,7 +376,7 @@ function DiceGame() {
                     />
                   ) : (
                     <img
-                      src={diceImages[random]}
+                      src={diceImages[resultRoll]}
                       style={{ width: "230px", height: "230px" }}
                       alt="no roll"
                     />

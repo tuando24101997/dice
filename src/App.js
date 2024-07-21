@@ -5,8 +5,10 @@ import DiceGame from "./Dice";
 import Register from "./components/register";
 import Blockchain from "./components/blockchain";
 import Transaction from "./components/transaction";
+import History from "./components/history";
 
 function App() {
+  
   return (
     <div>
       <Router>
@@ -16,6 +18,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/blockchain" element={<Blockchain />} />
           <Route path="/transaction" element={<Transaction />} />
+          <Route path="/history" element={<History />} />
         </Routes>
       </Router>
     </div>
