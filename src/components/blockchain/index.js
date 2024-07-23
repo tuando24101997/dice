@@ -14,9 +14,9 @@ function Blockchain() {
         const fetchAPI = async () => {
           const result = await IndexAPI.getBlock();
           let list_block = result.data.blocks;
-          list_block[0].prev = 'none';
-          for (let i = 1; i < list_block.length; i++) {
-            list_block[i].prev = list_block[i-1].blockHash;
+          list_block[list_block.length-1].prev = 'none';
+          for (let i = 0; i < list_block.length - 1; i++) {
+            list_block[i].prev = list_block[i+1].blockHash;
             
           }
           console.log(list_block)

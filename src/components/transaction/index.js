@@ -30,7 +30,7 @@ function Transaction() {
           <tbody>
             <tr>
               <th>ID</th>
-              <th>Block</th>
+              <th>Result Roll</th>
               <th>Method</th>
               <th>From</th>
               <th></th>

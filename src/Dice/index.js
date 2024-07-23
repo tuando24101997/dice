@@ -41,7 +41,7 @@ function DiceGame() {
   const [result, setResult] = useState(0);
 
   // State roll
-  const [id, setId] = useState('');
+  const [id, setId] = useState("");
   const [resultRoll, setResultRoll] = useState(1);
 
   // List url
@@ -62,7 +62,6 @@ function DiceGame() {
     }
   };
 
-
   useEffect(() => {
     // console.log(random);
     let isLogin = JSON.parse(localStorage.getItem("isLogin"));
@@ -70,15 +69,15 @@ function DiceGame() {
       navigate("/login");
     }
     const lc_block = localStorage.getItem("block");
-    if(lc_block === "null"){
+    if (lc_block === "null") {
       localStorage.setItem("block", JSON.stringify(block));
     } else {
       const list_block = JSON.parse(lc_block);
       setBlock(list_block);
     }
-    
+
     const list_wallet = JSON.parse(localStorage.getItem("my-wallet"));
-    if (list_wallet !== null){
+    if (list_wallet !== null) {
       setListWallet(list_wallet);
       const user = list_wallet.find(
         (wallet) =>
@@ -86,7 +85,7 @@ function DiceGame() {
       );
       setWallet(user);
     }
-    
+
     const lcRoll = localStorage.getItem("Id_roll");
     if (lcRoll !== null) {
       const id_roll = JSON.parse(lcRoll);
@@ -94,36 +93,112 @@ function DiceGame() {
     } else {
       localStorage.setItem("Id_roll", JSON.stringify(idRoll));
     }
-  }, [resultRoll]);
+    if (choose !== 0) {
 
-  
+      console.log("result Roll", resultRoll);
+      console.log("result Choose", choose);
+      if (resultRoll > 0 && resultRoll <= 6){
+        let resultTaiXiu = 0;
+        if (resultRoll < 4) {
+          resultTaiXiu = 2; // Xiu
+        } else {
+          resultTaiXiu = 1; // Tai
+        }
+        if (resultTaiXiu === choose) {
+          console.log("You win");
+          Swal.fire("Bạn đã thắng!");
+          wallet.coin = Number(wallet.coin) + Number(coin) - Number(gas);
+          setWallet(wallet);
+          listWallet[wallet.id].coin = wallet.coin;
+          localStorage.setItem("my-wallet", JSON.stringify(listWallet));
+          const transaction = {
+            id: Math.floor(Date.now() / 1000),
+            transactionId: sha256(block.length),
+            from: "Nhà cái (0xe7c3b1ab0d1e75dabc1cf3157e9b6d786a69b0d18716a64597d8ecf0e92939a4)",
+            to: wallet.hashId,
+            block: resultRoll,
+            value: coin,
+            gas: gas,
+          };
+          let listHistory = JSON.parse(
+            localStorage.getItem("transaction-history")
+          );
+          if (listHistory) {
+            listHistory.push(transaction);
+            const listTransactionJSON = JSON.stringify(listHistory);
+            localStorage.setItem("transaction-history", listTransactionJSON);
+          } else {
+            let listTransaction = [];
+            listTransaction.push(transaction);
+            const listTransactionJSON = JSON.stringify(listTransaction);
+            localStorage.setItem("transaction-history", listTransactionJSON);
+          }
+        } else {
+          console.log("You lose");
+          Swal.fire("Bạn đã thua!");
+          wallet.coin = Number(wallet.coin) - Number(coin) - Number(gas);
+          setWallet(wallet);
+          listWallet[wallet.id].coin = wallet.coin;
+          localStorage.setItem("my-wallet", JSON.stringify(listWallet));
+          const transaction = {
+            id: Math.floor(Date.now() / 1000),
+            transactionId: sha256(block.length),
+            from: wallet.hashId,
+            to: "Nhà cái (0xe7c3b1ab0d1e75dabc1cf3157e9b6d786a69b0d18716a64597d8ecf0e92939a4)",
+            block: resultRoll,
+            value: coin,
+            gas: gas,
+          };
+          let listHistory = JSON.parse(
+            localStorage.getItem("transaction-history")
+          );
+          if (listHistory) {
+            listHistory.push(transaction);
+            const listTransactionJSON = JSON.stringify(listHistory);
+            localStorage.setItem("transaction-history", listTransactionJSON);
+          } else {
+            let listTransaction = [];
+            listTransaction.push(transaction);
+            const listTransactionJSON = JSON.stringify(listTransaction);
+            localStorage.setItem("transaction-history", listTransactionJSON);
+          }
+        }
+      }else {
+        Swal.fire("Hệ thống quá tải. Vui lòng thử lại");
+      }
+      
+    }
+  }, [resultRoll]);
 
   const fetchDataFromFirstAPI = async () => {
     try {
       // Thực hiện yêu cầu GET đến API đầu tiên
-      const response1 = await axios.get('http://localhost:4001/roll-dice');
+      const response1 = await axios.get("http://localhost:4001/roll-dice");
       setId(response1.data.txId);
       console.log(response1.data.txId);
     } catch (err) {
-      throw err ('Failed to fetch data');
-    } 
+      alert('hệ thống quá tải');
+      throw err("Failed to fetch data");
+    }
   };
 
   const fetchRoll = async () => {
     try {
       // Thực hiện yêu cầu GET đến API đầu tiên
-      const response2 = await axios.get(`http://localhost:4001/roll-dice-result/${id}`);
+      const response2 = await axios.get(
+        `http://localhost:4001/roll-dice-result/${id}`
+      );
       const roll = response2.data.result;
-      if(roll){
+      if (roll) {
         setResultRoll(response2.data.result);
       } else {
         setResultRoll(1);
       }
       console.log(response2.data.result);
     } catch (err) {
-      console.log('Failed to fetch data');
-    } 
-  }
+      console.log("Failed to fetch data");
+    }
+  };
 
   const handlePlayGame = (e) => {
     e.preventDefault();
@@ -178,73 +253,73 @@ function DiceGame() {
               check = 1; // Xỉu
             }
             if (check === choose) {
-              Swal.fire("Bạn thua!");
-              wallet.coin = Number(wallet.coin) - Number(coin) - Number(gas);
-              setWallet(wallet);
-              listWallet[wallet.id].coin = wallet.coin;
-              localStorage.setItem("my-wallet", JSON.stringify(listWallet));
-              const transaction = {
-                id: Math.floor(Date.now() / 1000),
-                transactionId: sha256(block.length),
-                from: wallet.hashId,
-                to: "Nhà cái (0xe7c3b1ab0d1e75dabc1cf3157e9b6d786a69b0d18716a64597d8ecf0e92939a4)",
-                block: block.length,
-                value: coin,
-                gas: gas,
-              };
-              let listHistory = JSON.parse(
-                localStorage.getItem("transaction-history")
-              );
-              if (listHistory) {
-                listHistory.push(transaction);
-                const listTransactionJSON = JSON.stringify(listHistory);
-                localStorage.setItem(
-                  "transaction-history",
-                  listTransactionJSON
-                );
-              } else {
-                let listTransaction = [];
-                listTransaction.push(transaction);
-                const listTransactionJSON = JSON.stringify(listTransaction);
-                localStorage.setItem(
-                  "transaction-history",
-                  listTransactionJSON
-                );
-              }
+              // Swal.fire("Bạn thua!");
+              //wallet.coin = Number(wallet.coin) - Number(coin) - Number(gas);
+              //setWallet(wallet);
+             // listWallet[wallet.id].coin = wallet.coin;
+              //localStorage.setItem("my-wallet", JSON.stringify(listWallet));
+              // const transaction = {
+              //   id: Math.floor(Date.now() / 1000),
+              //   transactionId: sha256(block.length),
+              //   from: wallet.hashId,
+              //   to: "Nhà cái (0xe7c3b1ab0d1e75dabc1cf3157e9b6d786a69b0d18716a64597d8ecf0e92939a4)",
+              //   block: block.length,
+              //   value: coin,
+              //   gas: gas,
+              // };
+              // let listHistory = JSON.parse(
+              //   localStorage.getItem("transaction-history")
+              // );
+              // if (listHistory) {
+              //   listHistory.push(transaction);
+              //   const listTransactionJSON = JSON.stringify(listHistory);
+              //   localStorage.setItem(
+              //     "transaction-history",
+              //     listTransactionJSON
+              //   );
+              // } else {
+              //   let listTransaction = [];
+              //   listTransaction.push(transaction);
+              //   const listTransactionJSON = JSON.stringify(listTransaction);
+              //   localStorage.setItem(
+              //     "transaction-history",
+              //     listTransactionJSON
+              //   );
+              // }
             } else {
-              Swal.fire("Bạn thắng!");
-              wallet.coin = Number(wallet.coin) + Number(coin) - Number(gas);
-              setWallet(wallet);
-              listWallet[wallet.id].coin = wallet.coin;
-              localStorage.setItem("my-wallet", JSON.stringify(listWallet));
-              const transaction = {
-                id: Math.floor(Date.now() / 1000),
-                transactionId: sha256(block.length),
-                from: "Nhà cái (0xe7c3b1ab0d1e75dabc1cf3157e9b6d786a69b0d18716a64597d8ecf0e92939a4)",
-                to: wallet.hashId,
-                block: block.length,
-                value: coin,
-                gas: gas,
-              };
-              let listHistory = JSON.parse(
-                localStorage.getItem("transaction-history")
-              );
-              if (listHistory) {
-                listHistory.push(transaction);
-                const listTransactionJSON = JSON.stringify(listHistory);
-                localStorage.setItem(
-                  "transaction-history",
-                  listTransactionJSON
-                );
-              } else {
-                let listTransaction = [];
-                listTransaction.push(transaction);
-                const listTransactionJSON = JSON.stringify(listTransaction);
-                localStorage.setItem(
-                  "transaction-history",
-                  listTransactionJSON
-                );
-              }
+              // Swal.fire("Bạn thắng!");
+              //wallet.coin = Number(wallet.coin) + Number(coin) - Number(gas);
+              // setWallet(wallet);
+              // listWallet[wallet.id].coin = wallet.coin;
+              // localStorage.setItem("my-wallet", JSON.stringify(listWallet));
+              // const transaction = {
+              //   id: Math.floor(Date.now() / 1000),
+              //   transactionId: sha256(block.length),
+              //   from: "Nhà cái (0xe7c3b1ab0d1e75dabc1cf3157e9b6d786a69b0d18716a64597d8ecf0e92939a4)",
+              //   to: wallet.hashId,
+              //   block: block.length,
+              //   value: coin,
+              //   gas: gas,
+              // };
+              // let listHistory = JSON.parse(
+              //   localStorage.getItem("transaction-history")
+              // );
+              // if (listHistory) {
+              //   listHistory.push(transaction);
+              //   const listTransactionJSON = JSON.stringify(listHistory);
+              //   localStorage.setItem(
+              //     "transaction-history",
+              //     listTransactionJSON
+              //   );
+              // } else {
+              //   let listTransaction = [];
+              //   listTransaction.push(transaction);
+              //   const listTransactionJSON = JSON.stringify(listTransaction);
+              //   localStorage.setItem(
+              //     "transaction-history",
+              //     listTransactionJSON
+              //   );
+              // }
             }
           }, 7000);
         }
@@ -253,10 +328,9 @@ function DiceGame() {
   };
 
   const handleExit = () => {
-    navigate('/login');
+    navigate("/login");
     localStorage.setItem("isLogin", JSON.stringify(false));
-
-  }
+  };
 
   return (
     <div style={{ width: "100%", height: "100vh" }}>
@@ -267,9 +341,23 @@ function DiceGame() {
           DICE GAME
         </span>
         <div>
-          <a href="/blockchain" className="btn-game">Blockchain</a>
-          <a href="/transaction" className="btn-game">Transaction</a>
-          <button onClick={handleExit} className="btn btn-primary" style={{padding: '4px 10px', fontSize: '13px', marginRight: '1em'}}>Thoát</button>
+          <a href="/blockchain" className="btn-game">
+            Blockchain
+          </a>
+          <a href="/transaction" className="btn-game">
+            Transaction
+          </a>
+          <button
+            onClick={handleExit}
+            className="btn btn-primary"
+            style={{
+              padding: "4px 10px",
+              fontSize: "13px",
+              marginRight: "1em",
+            }}
+          >
+            Thoát
+          </button>
         </div>
       </div>
       <div className="container mt-4">
@@ -284,12 +372,7 @@ function DiceGame() {
                 Balance {wallet.coin}
               </span>
             </p>
-            <p style={{ margin: "0", padding: "0" }}>
-              {" "}
-              <span style={{ fontSize: "16px", fontWeight: "500" }}>
-                ID ROLL: {idRoll}
-              </span>
-            </p>
+           
             <div style={{ marginTop: "3em" }}>
               <button
                 className={choose === 1 ? "btn-choose active" : "btn-choose"}
@@ -328,12 +411,12 @@ function DiceGame() {
                 <p
                   style={{
                     fontSize: "15px",
-                    fontWeight: '500'
+                    fontWeight: "500",
                   }}
                 >
                   Result: {resultRoll}
-                  {(resultRoll <= 3 && resultRoll >= 1) && <span> (Xỉu)</span>}
-                  {(resultRoll <= 6 && resultRoll >= 4) && <span> (Tài)</span>}
+                  {resultRoll <= 3 && resultRoll >= 1 && <span> (Xỉu)</span>}
+                  {resultRoll <= 6 && resultRoll >= 4 && <span> (Tài)</span>}
                 </p>
                 <br />
                 {ready ? (
@@ -341,10 +424,7 @@ function DiceGame() {
                     PLAY
                   </button>
                 ) : (
-                  <button
-                    type="submit"
-                    className="btnSubmit"
-                  >
+                  <button type="submit" className="btnSubmit">
                     READY
                   </button>
                 )}
